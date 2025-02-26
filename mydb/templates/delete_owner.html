@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>删除户主信息</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>确认删除户主</h1>
+        <p>您确定要删除下列户主信息吗？</p>
+        <table>
+            <tr>
+                <th>身份信息</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>联系方式</th>
+                <th>住址</th>
+            </tr>
+                <td>{{ owner.id }}</td>
+                <td>{{ owner.name }}</td>
+                <td>{{ owner.gender }}</td>
+                <td>{{ owner.phone_number }}</td>
+                <td>{{ owner.address }}</td>
+            </tr>
+        </table>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">确认删除</button>
+        </form>
+        <button onclick="window.location.href='{% url 'owner_list' %}'" class="cancel-button">取消</button>
+    </div>
+</body>
+</html>

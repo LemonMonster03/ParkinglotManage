@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>删除记录</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>确认删除记录</h1>
+        <p>您确定要删除下列记录吗？</p>
+        <table>
+            <tr>
+                <th>记录 ID</th>
+                <th>进入时间</th>
+                <th>离开时间</th>
+                <th>停车费用</th>
+                <th>停车场 ID</th>
+                <th>停车位 ID</th>
+                <th>车牌号</th>
+                <th>管理员 ID</th>
+            </tr>
+            {% for item in record_data %}
+                {% for where in item.where_info %}
+                    <tr>
+                        <td>{{ item.record.id }}</td>
+                        <td>{{ item.record.entry_time }}</td>
+                        <td>{{ item.record.exit_time }}</td>
+                        <td>{{ item.record.fee }}</td>
+                        <td>{{ where.parking_lot_id }}</td>
+                        <td>{{ where.spot_id }}</td>
+                        <td>
+                            {% for plate in item.have_info %}
+                                {{ plate }}<br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for admin_id in item.manage_info %}
+                                {{ admin_id }}<br>
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="delete-button">确认删除</button>
+        </form>
+        <button onclick="window.location.href='{% url 'record_list' %}'" class="cancel-button">取消</button>
+    </div>
+</body>
+</html>

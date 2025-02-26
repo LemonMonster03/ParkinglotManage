@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>记录列表</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>记录列表</h1>
+
+        <form method="GET" class="search-form">
+            <input type="text" name="admin_id" placeholder="管理员 ID" value="{{ query_admin_id }}" />
+            <input type="text" name="plate" placeholder="车牌号" value="{{ query_plate }}" />
+            <input type="text" name="parking_lot_id" placeholder="停车场 ID" value="{{ query_parking_lot_id }}" />
+            <input type="text" name="spot_id" placeholder="停车位 ID" value="{{ query_spot_id }}" />
+            <button type="submit">搜索</button>
+        </form>
+
+        <table>
+            <tr>
+                <th>记录 ID</th>
+                <th>进入时间</th>
+                <th>离开时间</th>
+                <th>停车费用</th>
+                <th>停车场 ID</th>
+                <th>停车位 ID</th>
+                <th>车牌号</th>
+                <th>管理员 ID</th>
+                <th>操作</th>
+            </tr>
+            {% for item in record_data %}
+                {% for where in item.where_info %}
+                    <tr>
+                        <td>{{ item.record.id }}</td>
+                        <td>{{ item.record.entry_time }}</td>
+                        <td>{{ item.record.exit_time }}</td>
+                        <td>{{ item.record.fee }}</td>
+                        <td>{{ where.parking_lot_id }}</td>
+                        <td>{{ where.spot_id }}</td>
+                        <td>
+                            {% for plate in item.have_info %}
+                                {{ plate }}<br>
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for admin_id in item.manage_info %}
+                                {{ admin_id }}<br>
+                            {% endfor %}
+                        </td>
+                        <td class="actions">
+                            <a href="{% url 'edit_record' item.record.id item.have_info.0|default:"Null" item.manage_info.0 item.where_info.0.parking_lot_id item.where_info.0.spot_id %}" style="text-decoration: none; color:green;">编辑</a>
+                            <a href="{% url 'delete_record' item.record.id %}" style="text-decoration: none; color:red;">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+
+        <div class="pagination-container">
+            <div class="pagination">
+                {% if records.has_previous %}
+                    <a href="?page=1&admin_id={{ query_admin_id }}&plate={{ query_plate }}&parking_lot_id={{ query_parking_lot_id }}&spot_id={{ query_spot_id }}">« 第一页</a>
+                    <a href="?page={{ records.previous_page_number }}&admin_id={{ query_admin_id }}&plate={{ query_plate }}&parking_lot_id={{ query_parking_lot_id }}&spot_id={{ query_spot_id }}">‹ 上一页</a>
+                {% endif %}
+
+                <span>第 {{ records.number }} 页 / 共 {{ records.paginator.num_pages }} 页</span>
+
+                {% if records.has_next %}
+                    <a href="?page={{ records.next_page_number }}&admin_id={{ query_admin_id }}&plate={{ query_plate }}&parking_lot_id={{ query_parking_lot_id }}&spot_id={{ query_spot_id }}">下一页 ›</a>
+                    <a href="?page={{ records.paginator.num_pages }}&admin_id={{ query_admin_id }}&plate={{ query_plate }}&parking_lot_id={{ query_parking_lot_id }}&spot_id={{ query_spot_id }}">最后一页 »</a>
+                {% endif %}
+            </div>
+
+            <a href="{% url 'add_record' %}" class="add-record-button">添加记录</a>
+        </div>
+    </div>
+</body>
+</html>

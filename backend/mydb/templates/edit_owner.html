@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑住户</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>编辑住户信息</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-container">
+                <div class="form-column">
+                    <label for="id">身份证号:</label><br>
+                    <input type="text" id="id" name="id" value="{{ owner.id }}" required><br>
+                    <label for="name">姓名:</label><br>
+                    <input type="text" id="name" name="name" value="{{ owner.name }}" required><br>
+                    <label>性别:</label><br>
+                    <input type="radio" id="gender_0" name="gender" value="Male" {% if owner.gender == "Male" %}checked{% endif %} required>
+                    <label for="gander_0">男性</label>
+                    <input type="radio" id="gender_1" name="gender" value="Female" {% if owner.gender == "Female" %}checked{% endif %} required>
+                    <label for="gander_1">女性</label><br>
+                </div>
+                <div class="form-column">
+                    <label for="phone_number">联系方式:</label><br>
+                    <input type="text" id="phone_number" name="phone_number" value="{{ owner.phone_number }}" required><br>
+                    <label for="address">住址:</label><br>
+                    <input type="text" id="address" name="address" value="{{ owner.address }}" required><br>
+                    {% if error %}
+                        <p style="color: red;">{{ error }}</p>
+                    {% endif %}
+                    <button type="button" onclick="window.location.href='{% url 'own' %}?owner_id={{ owner.id }}'">绑定车辆</button>
+                </div>
+            </div>
+            <button type="submit" class="confirm-button">保存更改</button>
+        </form>
+        <div>
+            <button onclick="window.location.href='{% url 'owner_list' %}'" class="return-button">返回列表</button>
+        </div>
+    </div>
+</body>
+</html>

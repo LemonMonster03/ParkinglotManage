@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>户主列表</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+
+    <div class="container">
+        <h1>户主列表</h1>
+
+        <!-- 搜索表单 -->
+        <form method="GET" class="search-form">
+            <input type="text" name="id" placeholder="身份信息" value="{{ query_id }}" />
+            <input type="text" name="name" placeholder="姓名" value="{{ query_name }}" />
+            <button type="submit">搜索</button>
+        </form>
+
+        <table>
+            <tr>
+                <th>身份信息</th>
+                <th>姓名</th>
+                <th>性别</th>
+                <th>联系方式</th>
+                <th>住址</th>
+                <th>操作</th>
+            </tr>
+            {% for item in owner_data %}
+                <tr>
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.gender }}</td>
+                    <td>{{ item.phone_number }}</td>
+                    <td>{{ item.address }}</td>
+                    <td class="actions">
+                        <a href="{% url 'edit_owner' item.id %}" style="text-decoration: none; color:green;">编辑</a>
+                        <a href="{% url 'delete_owner' item.id %}" style="text-decoration: none; color:red;">删除</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+
+        <div class="pagination-container">
+            <div class="pagination">
+                {% if owners.has_previous %}
+                    <a href="?page=1{{ '&id='|add:query_id }}{{ '&name='|add:query_name }}">« 第一页</a>
+                    <a href="?page={{ owners.previous_page_number }}{{ '&id='|add:query_id }}{{ '&name='|add:query_name }}">‹ 上一页</a>
+                {% endif %}
+
+                <span>第 {{ owners.number }} 页 / 共 {{ owners.paginator.num_pages }} 页</span>
+
+                {% if owners.has_next %}
+                    <a href="?page={{ owners.next_page_number }}{{ '&id='|add:query_id }}{{ '&name='|add:query_name }}">下一页 ›</a>
+                    <a href="?page={{ owners.paginator.num_pages }}{{ '&id='|add:query_id }}{{ '&name='|add:query_name }}">最后一页 »</a>
+                {% endif %}
+            </div>
+
+            <a href="{% url 'add_owner' %}" class="add-record-button">添加住户</a>
+        </div>
+    </div>
+</body>
+</html>

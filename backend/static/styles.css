@@ -1,0 +1,199 @@
+/* 整体页面样式 */
+body {
+    font-family: Arial, sans-serif;
+    background-image: url(bg.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    color: #fff;
+    margin: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+form {
+    margin-bottom: 60px;
+}
+
+/* 顶部导航条样式 */
+.navbar {
+    background-color: #007BFF; /* 蓝色背景 */
+    color: white; /* 白色文字 */
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 1000; /* 确保导航条在前面 */
+    margin-bottom: 30px;
+}
+.navbar a {
+    color: white; /* 白色文字 */
+    text-decoration: none; /* 去掉下划线 */
+    padding: 10px;
+}
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* 悬停时变亮 */
+    border-radius: 5px; /* 添加圆角 */
+}
+
+/* 容器样式 */
+.container {
+    width: 100%;
+    max-width: 800px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+/* 按钮样式 */
+.delete-button {
+    position: absolute;
+    right: 20px; /* 距离右边20px */
+    bottom: 20px; /* 距离底部20px */
+    background-color: #4CAF50;
+    color: red;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.confirm-button {
+    position: absolute;
+    left: 20px; /* 距离右边20px */
+    bottom: 20px; /* 距离底部20px */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.return-button {
+    position: absolute;
+    right: 20px; /* 距离右边20px */
+    bottom: 20px; /* 距离底部20px */
+    background-color: #4CAF50;
+    color: red;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.cancel-button {
+    position: absolute;
+    left: 20px;
+    bottom: 20px; /* 距离底部20px */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.bind-car-button {
+    position: absolute;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.add-car-button, .add-record-button {
+    position: absolute;
+    left: 20px;
+    bottom: 20px; /* 距离底部20px */
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* 表格样式 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 60px;
+}
+
+th {
+        white-space: nowrap;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+td.actions {
+    white-space: nowrap;
+}
+
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination-container {
+    display: flex;              /* 使用flex布局 */
+    justify-content: center;    /* 居中分页按钮 */
+    margin-top: 20px;          /* 设置顶部间距 */
+    margin-bottom: 40px;
+    height: 50px;              /* 固定高度以保持按钮位置 */
+}
+
+.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 10px;
+    text-decoration: none;
+    color: #4CAF50;
+}
+
+.pagination span {
+    margin: 0 10px;
+    color: white; /* 页码显示为白色 */
+}
+
+button {
+    margin-top: 20px;
+
+}
+
+.form-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* 两列之间的间距 */
+    margin-bottom: 30px;
+}
+.form-column {
+    flex: 1; /* 每列占据相同的宽度 */
+}
+
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px; /* 按钮与表单的间距 */
+}
+
+.search-form select {
+    width: 150px;  /* 下拉框宽度 */
+    padding: 2.5px;  /* 内边距 */
+}

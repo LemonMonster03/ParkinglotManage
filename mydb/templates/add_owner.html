@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>添加住户</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>添加住户信息</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="id">身份证号:</label><br>
+            <input type="text" id="id" name="id" required><br>
+            <label for="name">姓名:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            <label>性别:</label><br>
+            <input type="radio" id="gender_0" name="gender" value="Male" required>
+            <label for="gander_0">男性</label>
+            <input type="radio" id="gender_1" name="gender" value="Female" required>
+            <label for="gander_1">女性</label><br>
+            <label for="phone_number">联系方式:</label><br>
+            <input type="text" id="phone_number" name="phone_number" required><br>
+            <label for="address">住址:</label><br>
+            <input type="text" id="address" name="address" required><br>
+            <button type="submit" class="add-car-button">添加</button>
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+        </form>
+         <button onclick="window.location.href='{% url 'owner_list' %}'" class="return-button">返回列表</button>
+    </div>
+
+</body>
+</html>

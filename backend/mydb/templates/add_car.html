@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>添加汽车</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>添加汽车</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="license_plate">车牌号:</label><br>
+            <input type="text" id="license_plate" name="license_plate" required><br>
+            <label for="model">车型:</label><br>
+            <input type="text" id="model" name="model" required><br>
+            <label for="color">颜色:</label><br>
+            <input type="text" id="color" name="color" required><br>
+            <label>状态:</label><br>
+            <input type="radio" id="status_0" name="status" value="0" required>
+            <label for="status_0">未入库</label>
+            <input type="radio" id="status_1" name="status" value="1" required>
+            <label for="status_1">已入库</label><br>
+            <button type="submit" class="add-car-button">添加</button>
+            {% if error %}
+                <p style="color: red;">{{ error }}</p>
+            {% endif %}
+        </form>
+         <button onclick="window.location.href='{% url 'car_list' %}'" class="return-button">返回列表</button>
+    </div>
+
+</body>
+</html>

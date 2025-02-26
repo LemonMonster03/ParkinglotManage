@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>编辑记录</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+    <style>
+        /* 无样式按钮的样式 */
+        .no-style-button {
+            background: none; /* 背景无样式 */
+            border: none; /* 无边框 */
+            color: blue; /* 字体颜色 */
+            text-decoration: underline; /* 下划线 */
+            cursor: pointer; /* 鼠标悬停时显示为指针 */
+            padding: 0; /* 无内边距 */
+            font: inherit; /* 继承字体样式 */
+        }
+    </style>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>编辑记录信息</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-container">
+                <div class="form-column">
+                    <label for="license_plate">车牌号:</label><br>
+                    <input type="text" id="license_plate" name="license_plate" value="{{ car.LicensePlate }}" required><br>
+                    <label for="entry_time">驶入时间:</label><br>
+                    <input type="datetime-local" id="entry_time" name="entry_time" value="{{ record.entry_time|date:'Y-m-d\TH:i' }}" required><br>
+                    <label for="exit_time">离开时间:</label><br>
+                    <input type="datetime-local" id="exit_time" name="exit_time" value="{{ record.exit_time|date:'Y-m-d\TH:i' }}"><br>
+                    <label for="fee">费用:</label><br>
+                    <input type="number" id="fee" name="fee" value="{{ record.fee }}" step="0.01"><br>
+                </div>
+                <div class="form-column">
+                    <label for="lot_id">停车场编号:</label><br>
+                    <input type="text" id="lot_id" name="lot_id" value="{{ parkingspot.parking_lot_id }}" required><br>
+                    <label for="spot_id">停车位编号:</label><br>
+                    <input type="text" id="spot_id" name="spot_id" value="{{ parkingspot.spot_id }}" required><br>
+                    <label for="admin_id">管理员编号:</label><br>
+                    <input type="text" id="admin_id" name="admin_id" value="{{ admin.id }}" required><br>
+                </div>
+                {% if error %}
+                    <p style="color: red;">{{ error }}</p>
+                {% endif %}
+            </div>
+            <button type="submit" class="confirm-button">保存更改</button>
+        </form>
+        <button onclick="window.location.href='{% url 'record_list' %}'" class="return-button">返回列表</button>
+    </div>
+</body>
+</html>

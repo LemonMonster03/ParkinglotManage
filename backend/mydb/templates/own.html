@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>车主绑定车辆</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>车主与车辆绑定管理</h1>
+
+        <form method="GET" class="search-form">
+            <input type="text" name="owner_id" placeholder="车主 ID" value="{{ query_owner_id }}" />
+            <input type="text" name="license_plate" placeholder="车牌号" value="{{ query_license_plate }}" />
+            <button type="submit">搜索</button>
+        </form>
+
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+
+        <table>
+            <tr>
+                <th>车主 ID</th>
+                <th>车主姓名</th>
+                <th>车牌号</th>
+                <th>操作</th>
+            </tr>
+            {% for own in owns %}
+            <tr>
+                <td>{{ own.owner.id }}</td>
+                <td>{{ own.owner.name }}</td>
+                <td>{{ own.car.LicensePlate }}</td>
+                <td>
+                    <a href="{% url 'delete_own' own.id %}" style="text-decoration: none; color:red;">删除</a>
+            </tr>
+            {% endfor %}
+        </table>
+        <h3>添加新的绑定</h3>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="owner_id" placeholder="车主 ID" value="{{ query_owner_id }}" required />
+            <input type="text" name="license_plate" placeholder="车牌号" required />
+            <button type="submit">添加</button>
+        </form>
+        <button onclick="window.location.href='{% url 'owner_list' %}'" class="return-button">取消添加</button>
+    </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>汽车列表</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <script src="{% static 'script.js' %}"></script>
+</head>
+<body>
+<div style="display: none;" id="myindex-url">{% url 'myindex' %}</div>
+    <div class="navbar">
+        <a href="{% url 'manage' %}">回到首页</a>
+        <a href="#" onclick="logout()">退出登录</a>
+    </div>
+    <div class="container">
+        <h1>汽车列表</h1>
+
+        <!-- 搜索表单 -->
+        <form method="GET" class="search-form">
+            <input type="text" name="license_plate" placeholder="车牌号" value="{{ query_license_plate }}" />
+            <select name="status">
+                <option value="">状态（全部）</option>
+                <option value="已入库" {% if query_status == '已入库' %}selected{% endif %}>已入库</option>
+                <option value="未入库" {% if query_status == '未入库' %}selected{% endif %}>未入库</option>
+            </select>
+            <button type="submit">搜索</button>
+        </form>
+
+        <table>
+            <tr>
+                <th>车牌号</th>
+                <th>车型</th>
+                <th>颜色</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            {% for car in car_list %}
+            <tr>
+                <td>{{ car.LicensePlate }}</td>
+                <td>{{ car.model }}</td>
+                <td>{{ car.color }}</td>
+                <td>{{ car.status }}</td>
+                <td>
+                    <a href="{% url 'edit_car' car.LicensePlate %}" style="text-decoration: none; color:green;">编辑</a>
+                    <a href="{% url 'delete_car' car.LicensePlate %}" style="text-decoration: none; color:red;">删除</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="pagination-container">
+            <div class="pagination">
+                {% if cars.has_previous %}
+                    <a href="?page=1&license_plate={{ query_license_plate }}&status={{ query_status }}">« 第一页</a>
+                    <a href="?page={{ cars.previous_page_number }}&license_plate={{ query_license_plate }}&status={{ query_status }}">‹ 上一页</a>
+                {% endif %}
+
+                <span>第 {{ cars.number }} 页 / 共 {{ cars.paginator.num_pages }} 页</span>
+
+                {% if cars.has_next %}
+                    <a href="?page={{ cars.next_page_number }}&license_plate={{ query_license_plate }}&status={{ query_status }}">下一页 ›</a>
+                    <a href="?page={{ cars.paginator.num_pages }}&license_plate={{ query_license_plate }}&status={{ query_status }}">最后一页 »</a>
+                {% endif %}
+            </div>
+
+            <a href="{% url 'add_car' %}" class="add-car-button">添加汽车</a>
+        </div>
+    </div>
+</body>
+</html>
